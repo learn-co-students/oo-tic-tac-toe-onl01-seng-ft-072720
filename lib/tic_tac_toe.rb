@@ -42,17 +42,19 @@ def position_taken?(index)
 end
 
 def valid_move?(index)
-  index == (0..8) ? position_taken(index) : false
+  if (0..8).include?(index)
+    !position_taken?(index)
+  end
 end
 
 def turn
-  puts "Where would you like to go? 1-9"
-  input = gets.chomp
-  input_to_index
-  if valid_move?
-    move
+  index = input_to_index(gets.chomp)
+  if valid_move?(index)
+    move(index, current_player)
+    display_board
   else
-    puts "That is not a valid move, Try again."
+    puts "That is not a valid move, try again!"
+    gets.chomp
   end
 end
 
@@ -62,12 +64,12 @@ def turn_count
 end
 
 def current_player
-  turn_count.even ? "O" : "X"
+  turn_count.even? ? "X" : "O"
 end
 
 def won?
-  winning.any? {|i| i == board}
-end
+  flag = nil
+  WIN_COMBINATIONS.each
 
 def full?
   @board.none? {|i| i == " "}
@@ -77,19 +79,19 @@ def winner?
   WIN_COMBINATIONS.each {|win_array|
     if win_array.all? {|win_spot|
     win_spot == "X"}
-      puts "X WINS!"
+      "X"
   elsif win_array.all? {|win_spot|
     win_spot == "O"}
-      puts "O WINS!"
+       "O"
     else
       false
   end
  }
 end
 
-def play
-  until full? || winner?
-
-  end
+# def play
+#   until full? || winner?
+#
+#   end
 end
 end
